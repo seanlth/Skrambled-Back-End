@@ -121,7 +121,7 @@ std::string gen_key(mpz_class n, mpz_class g, mpz_class m, mpz_class& m1)
     mpz_class r1;
     mpz_class r2;
 
-    mpz_class y = gmp_random(512);
+    mpz_class y = gmp_random(128);
     
     mpz_powm(r1.get_mpz_t(), g.get_mpz_t(), y.get_mpz_t(), n.get_mpz_t());
     mpz_powm(r2.get_mpz_t(), m.get_mpz_t(), y.get_mpz_t(), n.get_mpz_t());
@@ -133,15 +133,10 @@ std::string gen_key(mpz_class n, mpz_class g, mpz_class m, mpz_class& m1)
 
 void handshake(database& d, std::string name, std::string n, std::string g, std::string m)
 {
-    mpz_class n_num;
-    mpz_class g_num;
-    mpz_class m_num;
+    mpz_class n_num = mpz_class( n );
+    mpz_class g_num = mpz_class( g );
+    mpz_class m_num = mpz_class( m );
     mpz_class m1_num;
-
-    mpz_set_str(n_num.get_mpz_t(), n.c_str(), 10);
-    mpz_set_str(n_num.get_mpz_t(), n.c_str(), 10);
-    mpz_set_str(n_num.get_mpz_t(), n.c_str(), 10);
-    mpz_set_str(n_num.get_mpz_t(), n.c_str(), 10);
 
     std::string key = gen_key(n_num, g_num, m_num, m1_num);
     
@@ -156,47 +151,47 @@ int authorise(database& d, std::string name, std::string c_key, std::string u_ke
 
 int main(int argc, const char * argv[])
 {
-//    int s = atoi( argv[1] );
-//    std::string name = argv[2];
-//    std::string n = argv[3];
-//    std::string g = argv[4];
-//    std::string m = argv[5];
-//    std::string c_key = argv[6];
-//    std::string u_key = argv[7];
-//    std::string sig = argv[8];
-//    std::string t = argv[9];
+    int s = atoi( argv[1] );
+    std::string name = argv[2];
+    std::string n = argv[3];
+    std::string g = argv[4];
+    std::string m = argv[5];
+    std::string c_key = argv[6];
+    std::string u_key = argv[7];
+    std::string sig = argv[8];
+    std::string t = argv[9];
+
+
+    database d = database("test.db");
+
+    
+    switch (s) {
+        case 0:
+            handshake(d, name, n, g, m);
+            break;
+        case 1:
+            authorise(d, name, c_key, u_key, sig);
+            break;
+
+        default:
+            break;
+    }
+    
+    
+    
+//    mpz_class n;
+//    mpz_nextprime( n.get_mpz_t(), gmp_random(256).get_mpz_t() );
 //
+//    mpz_class g = gmp_random(256);
+//    mpz_class x = gmp_random(256);
+//    mpz_class m;
+//    mpz_class m1;
 //
-//    database d = database("test.db");
+//    mpz_powm(m.get_mpz_t(), g.get_mpz_t(), x.get_mpz_t(), n.get_mpz_t());
 //
+//    mpz_class m2;
 //    
-//    switch (s) {
-//        case 0:
-//            handshake(d, name, n, g, m);
-//            break;
-//        case 1:
-//            authorise(d, name, c_key, u_key, sig);
-//            break;
-//
-//        default:
-//            break;
-//    }
-    
-    
-    
-    mpz_class n;
-    mpz_nextprime( n.get_mpz_t(), gmp_random(256).get_mpz_t() );
-
-    mpz_class g = gmp_random(256);
-    mpz_class x = gmp_random(256);
-    mpz_class m;
-    mpz_class m1;
-
-    mpz_powm(m.get_mpz_t(), g.get_mpz_t(), x.get_mpz_t(), n.get_mpz_t());
-
-    mpz_class m2;
-    
-    std::cout << gen_key(n, gmp_random(256), m, m1) << std::endl;
+//    std::cout << gen_key(n, gmp_random(256), m, m1) << std::endl;
     
     
     

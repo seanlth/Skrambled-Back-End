@@ -163,7 +163,8 @@ int main(int argc, const char * argv[])
     std::string sig = argv[8];
     std::string t = argv[9];
 
-    database d = database("~/Documents/C++/Skrambled-Back-End/users.db");
+    
+    database d = database("/home/seanlth/Documents/C++/Skrambled-Back-End/users.db");
 
     
     switch (s) {

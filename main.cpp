@@ -153,31 +153,32 @@ int authorise(database& d, std::string name, std::string c_key, std::string u_ke
 
 int main(int argc, const char * argv[])
 {
-    int s = atoi( argv[1] );
-    std::string name = argv[2];
-    std::string n = argv[3];
-    std::string g = argv[4];
-    std::string m = argv[5];
-    std::string c_key = argv[6];
-    std::string u_key = argv[7];
-    std::string sig = argv[8];
-    std::string t = argv[9];
-
-    
-    database d = database("/home/seanlth/Documents/C++/Skrambled-Back-End/users.db");
-
-    
-    switch (s) {
-        case 0:
-            std::cout << handshake(d, name, n, g, m);
-            break;
-        case 1:
-            authorise(d, name, c_key, u_key, sig);
-            break;
-
-        default:
-            break;
-    }
+    printf(argv[0]);
+//    int s = atoi( argv[1] );
+//    std::string name = argv[2];
+//    std::string n = argv[3];
+//    std::string g = argv[4];
+//    std::string m = argv[5];
+//    std::string c_key = argv[6];
+//    std::string u_key = argv[7];
+//    std::string sig = argv[8];
+//    std::string t = argv[9];
+//
+//    
+//    database d = database("/home/seanlth/Documents/C++/Skrambled-Back-End/users.db");
+//
+//    
+//    switch (s) {
+//        case 0:
+//            std::cout << handshake(d, name, n, g, m);
+//            break;
+//        case 1:
+//            authorise(d, name, c_key, u_key, sig);
+//            break;
+//
+//        default:
+//            break;
+//    }
     
     
     

@@ -151,41 +151,43 @@ int authorise(database& d, std::string name, std::string c_key, std::string u_ke
 
 int main(int argc, const char * argv[])
 {
-    int s = atoi( argv[1] );
-    std::string name = argv[2];
-    std::string n = argv[3];
-    std::string g = argv[4];
-    std::string m = argv[5];
-    std::string c_key = argv[6];
-    std::string u_key = argv[7];
-    std::string sig = argv[8];
-    std::string t = argv[9];
+    printf("%s\n", argv[0]);
     
-    std::cout << s << std::endl;
-    std::cout << name << std::endl;
-    std::cout << n << std::endl;
-    std::cout << g << std::endl;
-    std::cout << m << std::endl;
-    std::cout << c_key << std::endl;
-    std::cout << u_key << std::endl;
-    std::cout << sig << std::endl;
-    std::cout << t << std::endl;
-
-
-    database d = database("test.db");
-
-    
-    switch (s) {
-        case 0:
-            handshake(d, name, n, g, m);
-            break;
-        case 1:
-            authorise(d, name, c_key, u_key, sig);
-            break;
-
-        default:
-            break;
-    }
+//    int s = atoi( argv[1] );
+//    std::string name = argv[2];
+//    std::string n = argv[3];
+//    std::string g = argv[4];
+//    std::string m = argv[5];
+//    std::string c_key = argv[6];
+//    std::string u_key = argv[7];
+//    std::string sig = argv[8];
+//    std::string t = argv[9];
+//    
+//    std::cout << s << std::endl;
+//    std::cout << name << std::endl;
+//    std::cout << n << std::endl;
+//    std::cout << g << std::endl;
+//    std::cout << m << std::endl;
+//    std::cout << c_key << std::endl;
+//    std::cout << u_key << std::endl;
+//    std::cout << sig << std::endl;
+//    std::cout << t << std::endl;
+//
+//
+//    database d = database("test.db");
+//
+//    
+//    switch (s) {
+//        case 0:
+//            handshake(d, name, n, g, m);
+//            break;
+//        case 1:
+//            authorise(d, name, c_key, u_key, sig);
+//            break;
+//
+//        default:
+//            break;
+//    }
     
     
     

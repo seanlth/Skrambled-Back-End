@@ -131,7 +131,7 @@ std::string gen_key(mpz_class n, mpz_class g, mpz_class m, mpz_class& m1)
     return r2.get_str();
 }
 
-void handshake(database& d, std::string name, std::string n, std::string g, std::string m)
+std::string handshake(database& d, std::string name, std::string n, std::string g, std::string m)
 {
     mpz_class n_num = mpz_class( n );
     mpz_class g_num = mpz_class( g );
@@ -141,6 +141,8 @@ void handshake(database& d, std::string name, std::string n, std::string g, std:
     std::string key = gen_key(n_num, g_num, m_num, m1_num);
     
     d.insert("unverified", name, key);
+    
+    return m1_num.get_str();
 }
 
 int authorise(database& d, std::string name, std::string c_key, std::string u_key, std::string sig)
@@ -166,7 +168,7 @@ int main(int argc, const char * argv[])
     
     switch (s) {
         case 0:
-            handshake(d, name, n, g, m);
+            std::cout << handshake(d, name, n, g, m);
             break;
         case 1:
             authorise(d, name, c_key, u_key, sig);

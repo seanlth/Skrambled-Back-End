@@ -160,6 +160,16 @@ int main(int argc, const char * argv[])
     std::string u_key = argv[7];
     std::string sig = argv[8];
     std::string t = argv[9];
+    
+    std::cout << s << std::endl;
+    std::cout << name << std::endl;
+    std::cout << n << std::endl;
+    std::cout << g << std::endl;
+    std::cout << m << std::endl;
+    std::cout << c_key << std::endl;
+    std::cout << u_key << std::endl;
+    std::cout << sig << std::endl;
+    std::cout << t << std::endl;
 
 
     database d = database("test.db");

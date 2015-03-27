@@ -469,7 +469,7 @@ int main(int argc, const char * argv[])
             std::string user_key = hex_decrypt(u_key.c_str(), key.c_str());
             std::string dehexed_sig = fromHex(sig.c_str());
             
-            std::cout << dehexed_sig << std::endl;
+            //std::cout << dehexed_sig << std::endl;
 
 //            const char* c_key_dec = from_hex_string(c_key.c_str(), c_key.size());
 //            const char* u_key_dec = from_hex_string(u_key.c_str(), u_key.size());

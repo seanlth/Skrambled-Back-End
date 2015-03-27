@@ -435,7 +435,7 @@ int main(int argc, const char * argv[])
     //auto asd = gmp_random(128);
     //std::cout << asd.get_str() << std::endl;
     
-    database d = database("users.db");
+    database d = database("/home/seanlth/Documents/C++/Skrambled-Back-End/users.db");
     
     //d.insert("unverified", "JhaygoreDiego", "51924831484719428842179641947340427938");
 

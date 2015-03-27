@@ -264,14 +264,20 @@ std::string gen_key(mpz_class n, mpz_class g, mpz_class m, mpz_class& m1)
 {
     mpz_class r1;
     mpz_class r2;
-
-    mpz_class y = gmp_random(128);
+    
+    mpz_class y = mpz_class( "6");
     
     mpz_powm(r1.get_mpz_t(), g.get_mpz_t(), y.get_mpz_t(), n.get_mpz_t());
     mpz_powm(r2.get_mpz_t(), m.get_mpz_t(), y.get_mpz_t(), n.get_mpz_t());
     
     m1 = r1;
     
+    std::cout << n.get_str() << std::endl;
+    std::cout << g.get_str() << std::endl;
+    std::cout << m1.get_str() << std::endl;
+    std::cout << r2.get_str() << std::endl;
+
+
     return r2.get_str();
 }
 
@@ -404,11 +410,17 @@ int main(int argc, const char * argv[])
 //    from_hex_string(to_hex_string(input.c_str(), input.size()), 2);
 //    
 //    
-//    const char* x = hex_encrypt(input.c_str(), "31317972834947517761498882765646248434");
-//    const char* y = hex_decrypt(x, "31317972834947517761498882765646248434");
+    
+//    std::string cons = "cfaI934yhEnjyGP9dwGTWseMy";
+//    
+//    
+//    std::string x = hex_encrypt(cons.c_str(), "51924831484719428842179641947340427938");
+//    const char* y = hex_decrypt("FA9819D48EE103508102D779570C4CC5AB9FE6B26172ADAA099F907F119A9CC0", "51924831484719428842179641947340427938");
 //    
 //    std::cout << y << std::endl;
-//    
+    
+    
+//
 //    free((char*)x);
 //    free((char*)y);
     
@@ -419,6 +431,14 @@ int main(int argc, const char * argv[])
 //    std::string x_p = (const char*)decrypt((unsigned char*)x.c_str(), "31317972834947517761498882765646248434");
 //    std::cout << x_p << std::endl;
     
+    
+    //auto asd = gmp_random(128);
+    //std::cout << asd.get_str() << std::endl;
+    
+    database d = database("users.db");
+    
+    //d.insert("unverified", "JhaygoreDiego", "51924831484719428842179641947340427938");
+
     
     int s = atoi( argv[1] );
     std::string name = argv[2];
@@ -433,8 +453,7 @@ int main(int argc, const char * argv[])
     std::string t = argv[11];
 
     
-    database d = database("/home/seanlth/Documents/C++/Skrambled-Back-End/users.db");
-
+   
     
     switch (s) {
         case 0:
@@ -444,8 +463,13 @@ int main(int argc, const char * argv[])
         {
             std::pair<std::string, std::string> user = d.select("unverified", name);
             
-            std::string consumer_key = hex_decrypt(c_key.c_str(), user.second.c_str());
-            std::string user_key = hex_decrypt(u_key.c_str(), user.second.c_str());
+            std::string key = "51924831484719428842179641947340427938";
+            
+            std::string consumer_key = hex_decrypt(c_key.c_str(), key.c_str());
+            std::string user_key = hex_decrypt(u_key.c_str(), key.c_str());
+            std::string dehexed_sig = fromHex(sig.c_str());
+            
+            //std::cout << dehexed_sig << std::endl;
 
 //            const char* c_key_dec = from_hex_string(c_key.c_str(), c_key.size());
 //            const char* u_key_dec = from_hex_string(u_key.c_str(), u_key.size());
@@ -460,7 +484,7 @@ int main(int argc, const char * argv[])
 //            std::string nonce_decrypt = decrypt((unsigned char*)nonce_dec, user.second.c_str());
             //std::string timestamp_decrypt = decrypt((unsigned char*)timestamp_dec, user.second.c_str());
             
-            std::cout << authorise(d, name, consumer_key, user_key, sig, nonce, timestamp);
+            std::cout << authorise(d, name, consumer_key, user_key, dehexed_sig, nonce, timestamp);
             break;
         }
         default:

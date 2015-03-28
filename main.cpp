@@ -480,10 +480,9 @@ int main(int argc, const char * argv[])
             std::string key = user.second;
             
             std::string tweet = hex_decrypt(t.c_str(), key.c_str());
-            std::string encrypted_tweet = hex_encrypt(tweet.c_str(), key.c_str());
-            std::string new_tweet = hex_encrypt(encrypted_tweet.c_str(), key.c_str());
+            std::string encrypted_tweet = hex_encrypt(tweet.c_str(), group_key.c_str());
             
-            std::cout << new_tweet;
+            std::cout << encrypted_tweet;
 
         }
         case 3:

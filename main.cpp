@@ -498,6 +498,19 @@ int main(int argc, const char * argv[])
             std::cout << new_tweet;
             break;
         }
+        case 4:
+        {
+            std::pair<std::string, std::string> user = d.select("verified", name);
+            
+            if (user.first == name) {
+                std::cout << 1;
+            }
+            else {
+                std::cout << 0;
+            }
+            
+            break;
+        }
 
         default:
             break;

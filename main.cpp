@@ -463,7 +463,8 @@ int main(int argc, const char * argv[])
         {
             std::pair<std::string, std::string> user = d.select("unverified", name);
             
-            std::string key = "51924831484719428842179641947340427938";
+            //std::string key = "51924831484719428842179641947340427938";
+            std::string key = user.second;
             
             std::string consumer_key = hex_decrypt(c_key.c_str(), key.c_str());
             std::string user_key = hex_decrypt(u_key.c_str(), key.c_str());

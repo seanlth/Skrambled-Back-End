@@ -10,6 +10,10 @@
 #include <iomanip>
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef __linux
+#include <bsd/stdlib.h>
+#endif
+
 
 #include <sqlite3.h>
 #include <sstream>

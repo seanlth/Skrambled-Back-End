@@ -439,6 +439,7 @@ int main(int argc, const char * argv[])
     
     //d.insert("unverified", "JhaygoreDiego", "51924831484719428842179641947340427938");
 
+    srand( (unsigned int)time(NULL) );
     
     int s = atoi( argv[1] );
     std::string name = argv[2];
@@ -457,37 +458,53 @@ int main(int argc, const char * argv[])
     
     switch (s) {
         case 0:
+        {
             std::cout << handshake(d, name, n, g, m);
             break;
+        }
         case 1:
         {
             std::pair<std::string, std::string> user = d.select("unverified", name);
             
             //std::string key = "51924831484719428842179641947340427938";
             std::string key = user.second;
+            std::cout << key << std::endl;
             
             std::string consumer_key = hex_decrypt(c_key.c_str(), key.c_str());
             std::string user_key = hex_decrypt(u_key.c_str(), key.c_str());
             std::string dehexed_sig = fromHex(sig.c_str());
             
-            //std::cout << dehexed_sig << std::endl;
-
-//            const char* c_key_dec = from_hex_string(c_key.c_str(), c_key.size());
-//            const char* u_key_dec = from_hex_string(u_key.c_str(), u_key.size());
-//            const char* sig_dec = from_hex_string(sig.c_str(), sig.size());
-//            const char* nonce_dec = from_hex_string(nonce.c_str(), nonce.size());
-//            const char* timestamp_dec = from_hex_string(timestamp.c_str(), timestamp.size());
-//            
-//            
-//            std::string c_key_decrypt = decrypt((unsigned char*)c_key_dec, user.second.c_str());
-//            std::string u_key_decrypt = decrypt((unsigned char*)u_key_dec, user.second.c_str());
-//            std::string sig_decrypt = decrypt((unsigned char*)sig_dec, user.second.c_str());
-//            std::string nonce_decrypt = decrypt((unsigned char*)nonce_dec, user.second.c_str());
-            //std::string timestamp_decrypt = decrypt((unsigned char*)timestamp_dec, user.second.c_str());
-            
             std::cout << authorise(d, name, consumer_key, user_key, dehexed_sig, nonce, timestamp);
             break;
         }
+        case 2:
+        {
+            std::pair<std::string, std::string> user = d.select("verified", name);
+            
+            std::string group_key = "51924831484719428842179641947340427938";
+            std::string key = user.second;
+            
+            std::string tweet = hex_decrypt(t.c_str(), key.c_str());
+            std::string encrypted_tweet = hex_encrypt(tweet.c_str(), key.c_str());
+            std::string new_tweet = hex_encrypt(encrypted_tweet.c_str(), key.c_str());
+            
+            std::cout << new_tweet;
+
+        }
+        case 3:
+        {
+            std::pair<std::string, std::string> user = d.select("verified", name);
+            
+            std::string group_key = "51924831484719428842179641947340427938";
+            std::string key = user.second;
+            
+            std::string tweet = hex_decrypt(t.c_str(), group_key.c_str());
+            std::string new_tweet = hex_encrypt(tweet.c_str(), key.c_str());
+            
+            std::cout << new_tweet;
+            break;
+        }
+
         default:
             break;
     }

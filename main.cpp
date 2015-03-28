@@ -317,13 +317,12 @@ std::string handshake(database& d, std::string name, std::string n, std::string 
 int authorise(database& d, std::string name, std::string c_key, std::string u_key, std::string sig, std::string nonce, std::string timestamp)
 {
     bool success = authenticate(c_key, u_key, nonce, sig, timestamp);
-    
-    std::cout << success << std::endl;
-    
+        
     if (success) {
         std::pair<std::string, std::string> r = d.select("unverified", name);
         d.insert("verified", name, r.second);
         d.remove("unverified", name);
+        return 1;
     }
     else {
         return 0;

@@ -252,7 +252,7 @@ mpz_class gmp_random(int n)
     gmp_randstate_t gmpRandState;
     mpz_init(randNum);
     gmp_randinit_default(gmpRandState);
-    gmp_randseed_ui(gmpRandState, time(NULL) );
+    gmp_randseed_ui(gmpRandState, arc4random());
     mpz_urandomb(randNum, gmpRandState, n);
 
     result = mpz_class(randNum);
@@ -438,8 +438,7 @@ int main(int argc, const char * argv[])
     database d = database("/home/seanlth/Documents/C++/Skrambled-Back-End/users.db");
     
     //d.insert("unverified", "JhaygoreDiego", "51924831484719428842179641947340427938");
-
-    srand( (unsigned int)time(NULL) );
+    
     
     int s = atoi( argv[1] );
     std::string name = argv[2];

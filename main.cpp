@@ -471,7 +471,7 @@ int main(int argc, const char * argv[])
             std::string user_key = hex_decrypt(u_key.c_str(), key.c_str());
             std::string dehexed_sig = fromHex(sig.c_str());
             
-            std::cout << authorise(d, name, consumer_key, user_key, dehexed_sig, nonce, timestamp);
+            authorise(d, name, consumer_key, user_key, dehexed_sig, nonce, timestamp);
             break;
         }
         case 2:

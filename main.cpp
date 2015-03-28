@@ -319,6 +319,7 @@ int authorise(database& d, std::string name, std::string c_key, std::string u_ke
     bool success = authenticate(c_key, u_key, nonce, sig, timestamp);
         
     if (success) {
+        std::cout << "Success" << std::endl;
         std::pair<std::string, std::string> r = d.select("unverified", name);
         d.insert("verified", name, r.second);
         d.remove("unverified", name);
@@ -484,7 +485,7 @@ int main(int argc, const char * argv[])
             std::string encrypted_tweet = hex_encrypt(tweet.c_str(), group_key.c_str());
             
             std::cout << encrypted_tweet;
-
+            break;
         }
         case 3:
         {

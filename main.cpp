@@ -270,19 +270,13 @@ std::string gen_key(mpz_class n, mpz_class g, mpz_class m, mpz_class& m1)
     mpz_class r1;
     mpz_class r2;
     
-    mpz_class y = mpz_class( "6");
+    mpz_class y = gmp_random(512);
     
     mpz_powm(r1.get_mpz_t(), g.get_mpz_t(), y.get_mpz_t(), n.get_mpz_t());
     mpz_powm(r2.get_mpz_t(), m.get_mpz_t(), y.get_mpz_t(), n.get_mpz_t());
     
     m1 = r1;
     
-    std::cout << n.get_str() << std::endl;
-    std::cout << g.get_str() << std::endl;
-    std::cout << m1.get_str() << std::endl;
-    std::cout << r2.get_str() << std::endl;
-
-
     return r2.get_str();
 }
 
@@ -457,9 +451,6 @@ int main(int argc, const char * argv[])
     std::string timestamp = argv[10];
     std::string t = argv[11];
 
-    
-   
-    
     switch (s) {
         case 0:
         {
@@ -472,7 +463,6 @@ int main(int argc, const char * argv[])
             
             //std::string key = "51924831484719428842179641947340427938";
             std::string key = user.second;
-            std::cout << key << std::endl;
             
             std::string consumer_key = hex_decrypt(c_key.c_str(), key.c_str());
             std::string user_key = hex_decrypt(u_key.c_str(), key.c_str());

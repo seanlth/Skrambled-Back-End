@@ -133,7 +133,7 @@ unsigned char* encrypt(const char* input, const char* key, int* size)
     
     AES_KEY enc_key;
     AES_set_encrypt_key(aes_key, keylength, &enc_key);
-    AES_cbc_encrypt(aes_input, enc_out, inputslength, &enc_key, iv_enc, AES_ENCRYPT);
+    AES_cbc_encrypt(aes_input, enc_out, encslength, &enc_key, iv_enc, AES_ENCRYPT);
     
     *size = encslength;
     
@@ -156,7 +156,7 @@ const char* decrypt(unsigned char* input, int inputslength, const char* key)
     memset(iv_enc, 1, AES_BLOCK_SIZE);
     memcpy(iv_dec, iv_enc, AES_BLOCK_SIZE);
     
-    const size_t dec_length = inputslength; //((inputslength / AES_BLOCK_SIZE) * AES_BLOCK_SIZE) + AES_BLOCK_SIZE;
+    const size_t dec_length = length; //((inputslength / AES_BLOCK_SIZE) * AES_BLOCK_SIZE) + AES_BLOCK_SIZE;
     unsigned char* dec_out =  (unsigned char*)malloc( sizeof( unsigned char) * dec_length );
     memset(dec_out, 0, dec_length);
     

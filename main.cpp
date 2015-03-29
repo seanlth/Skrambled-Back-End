@@ -399,7 +399,7 @@ int main(int argc, const char * argv[])
     
     
     //std::string cons = "Alll is well in the land of twitter           ";
-    std::string cons = "Alll is well in the land of twiAlll is well in the land of twit";
+    std::string cons = "Alll is well in the land of twitter";
     std::cout << cons.size() << std::endl;
     int size = 0;
     auto x = encrypt(cons.c_str(), "51924831484719428842179641947340427938", &size);

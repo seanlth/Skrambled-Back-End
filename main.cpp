@@ -1,4 +1,4 @@
-//
+    //
 //  main.cpp
 //  SkrambledBackend
 //
@@ -113,18 +113,21 @@ struct database {
 
 unsigned char* encrypt(const char* input, const char* key, int* size)
 {
-    unsigned char* aes_input = (unsigned char*)input;
+    size_t inputslength = std::strlen(input) + 1;
+
+    const size_t encslength = ((inputslength + AES_BLOCK_SIZE) / AES_BLOCK_SIZE) * AES_BLOCK_SIZE;
+    unsigned char* aes_input = new unsigned char[encslength];
+    memcpy(aes_input, input, inputslength+1);
+    
     unsigned char* aes_key = (unsigned char*)key;
     
     int keylength = 128;
     
-    size_t inputslength = std::strlen((const char*)aes_input) + 1;
     
     unsigned char iv_dec[AES_BLOCK_SIZE], iv_enc[AES_BLOCK_SIZE];
     memset(iv_enc, 1, AES_BLOCK_SIZE);
     memcpy(iv_dec, iv_enc, AES_BLOCK_SIZE);
     
-    const size_t encslength = ((inputslength + AES_BLOCK_SIZE) / AES_BLOCK_SIZE) * AES_BLOCK_SIZE;
     unsigned char* enc_out = (unsigned char*)malloc( sizeof(unsigned char) * (encslength) );
     memset(enc_out, 0, encslength);
     
@@ -134,13 +137,17 @@ unsigned char* encrypt(const char* input, const char* key, int* size)
     
     *size = encslength;
     
+    delete [] aes_input;
+    
     return enc_out;
 }
 
 const char* decrypt(unsigned char* input, int inputslength, const char* key)
 {
-    
-    unsigned char* aes_input = (unsigned char*)input;
+    int length = ((inputslength + AES_BLOCK_SIZE) / AES_BLOCK_SIZE) * AES_BLOCK_SIZE;
+    unsigned char* aes_input = new unsigned char[length];
+    memcpy(aes_input, input, inputslength);
+
     unsigned char* aes_key = (unsigned char*)key;
     
     int keylength = 128;
@@ -157,6 +164,8 @@ const char* decrypt(unsigned char* input, int inputslength, const char* key)
     
     AES_set_decrypt_key(aes_key, keylength, &dec_key);
     AES_cbc_encrypt(aes_input, dec_out, dec_length, &dec_key, iv_dec, AES_DECRYPT);
+    
+    delete [] aes_input;
     
     return (const char*)dec_out;
 }
@@ -384,20 +393,37 @@ int main(int argc, const char * argv[])
 //    
 //    
     
-//    std::string cons = "11111111111111111";
+    
+    //e78cb7bd01077236742da18268de43eedfd415b1da8783df82bf37d0cc8fe115faa83da15c9e35d83cb7a0673b5887c2
+    //e78cb7bd01077236742da18268de43eedfd415b1da8783df82bf37d0cc8fe115ac9aa60899d4f465d1b0facdac49a12d
+    
+    
+    //std::string cons = "Alll is well in the land of twitter           ";
+    std::string cons = "Alll is well in the land of twiAlll is well in the land of twit";
+    std::cout << cons.size() << std::endl;
+    int size = 0;
+    auto x = encrypt(cons.c_str(), "51924831484719428842179641947340427938", &size);
+    std::cout << size << std::endl;
+
+    std::cout << toHex((const char*)x, size) << std::endl;
+    auto y = decrypt(x, size, "51924831484719428842179641947340427938");
+    std::cout << y << std::endl;
+
+    
+    return 1;
 //    std::cout << cons.size() << std::endl;
 //    std::cout << AES_BLOCK_SIZE << std::endl;
 //    
-//    //std::string x = hex_encrypt(cons.data(), "51924831484719428842179641947340427938");
+ //   std::string x = hex_encrypt(cons.data(), "51924831484719428842179641947340427938");
 //    
-//    std::string x = "1423220A0076C83BEF67C2BCE2A4137B9A65F687E776C8CC441FF31456CA8D4788124153F7EEA11DB9165728DD351F38";
+//    //std::string x = "1423220A0076C83BEF67C2BCE2A4137B9A65F687E776C8CC441FF31456CA8D4788124153F7EEA11DB9165728DD351F38";
 //    
 //    std::string y = hex_decrypt(x, "51924831484719428842179641947340427938");
 //    
-//    std::cout << y << std::endl;
-//    //std::cout << x << std::endl;
+    std::cout << y << std::endl;
+//    std::cout << x << std::endl;
 //
-//    return 1;
+    return 1;
     
     
 //
@@ -419,7 +445,6 @@ int main(int argc, const char * argv[])
     //database d = database("test.db");
     
     //d.insert("unverified", "JhaygoreDiego", "51924831484719428842179641947340427938");
-    
     
     
     int s = atoi( argv[1] );

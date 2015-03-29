@@ -398,19 +398,19 @@ int main(int argc, const char * argv[])
     //e78cb7bd01077236742da18268de43eedfd415b1da8783df82bf37d0cc8fe115ac9aa60899d4f465d1b0facdac49a12d
     
     
-    //std::string cons = "Alll is well in the land of twitter           ";
-    std::string cons = "Alll is well in the land of twitter";
-    std::cout << cons.size() << std::endl;
-    int size = 0;
-    auto x = encrypt(cons.c_str(), "51924831484719428842179641947340427938", &size);
-    std::cout << size << std::endl;
-
-    std::cout << toHex((const char*)x, size) << std::endl;
-    auto y = decrypt(x, size, "51924831484719428842179641947340427938");
-    std::cout << y << std::endl;
-
-    
-    return 1;
+//    //std::string cons = "Alll is well in the land of twitter           ";
+//    std::string cons = "Alll is well in the land of twitter";
+//    std::cout << cons.size() << std::endl;
+//    int size = 0;
+//    auto x = encrypt(cons.c_str(), "51924831484719428842179641947340427938", &size);
+//    std::cout << size << std::endl;
+//
+//    std::cout << toHex((const char*)x, size) << std::endl;
+//    auto y = decrypt(x, size, "51924831484719428842179641947340427938");
+//    std::cout << y << std::endl;
+//
+//    
+//    return 1;
 //    std::cout << cons.size() << std::endl;
 //    std::cout << AES_BLOCK_SIZE << std::endl;
 //    
@@ -420,10 +420,10 @@ int main(int argc, const char * argv[])
 //    
 //    std::string y = hex_decrypt(x, "51924831484719428842179641947340427938");
 //    
-    std::cout << y << std::endl;
+//    std::cout << y << std::endl;
 //    std::cout << x << std::endl;
 //
-    return 1;
+//    return 1;
     
     
 //

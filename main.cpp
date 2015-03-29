@@ -111,36 +111,7 @@ struct database {
     }
 };
 
-
-const char* to_hex_string(const char* str, size_t len)
-{
-    char* r_str = (char*)malloc( sizeof(char) * len*2);
-    
-    const unsigned char* str_t = (const unsigned char*)str;
-    
-    for (int i = 0; i < len; i++) {
-        char t[3];
-        snprintf(t, sizeof(t), "%02X", str_t[i]);
-        r_str[2*i] = t[0];
-        r_str[2*i + 1] = t[1];
-    }
-    
-    return r_str;
-}
-
-const char* from_hex_string(const char* str, size_t len)
-{
-    char* r_str = (char*)malloc( sizeof(char) * len/2);
-    
-    for (int i = 0; i < len; i++) {
-        const char t[2] = {str[2*i], str[2*i+1]};
-        r_str[i] = strtoull(t, NULL, 16);
-    }
-    
-    return (const char*)r_str;
-}
-
-unsigned char* encrypt(const char* input, const char* key)
+unsigned char* encrypt(const char* input, const char* key, int* size)
 {
     unsigned char* aes_input = (unsigned char*)input;
     unsigned char* aes_key = (unsigned char*)key;
@@ -154,32 +125,33 @@ unsigned char* encrypt(const char* input, const char* key)
     memcpy(iv_dec, iv_enc, AES_BLOCK_SIZE);
     
     const size_t encslength = ((inputslength + AES_BLOCK_SIZE) / AES_BLOCK_SIZE) * AES_BLOCK_SIZE;
-    unsigned char* enc_out = (unsigned char*)malloc( sizeof(unsigned char) * (encslength + 1) );
+    unsigned char* enc_out = (unsigned char*)malloc( sizeof(unsigned char) * (encslength) );
     memset(enc_out, 0, encslength);
     
     AES_KEY enc_key;
     AES_set_encrypt_key(aes_key, keylength, &enc_key);
     AES_cbc_encrypt(aes_input, enc_out, inputslength, &enc_key, iv_enc, AES_ENCRYPT);
     
+    *size = encslength;
+    
     return enc_out;
 }
 
-const char* decrypt(unsigned char* input, const char* key)
+const char* decrypt(unsigned char* input, int inputslength, const char* key)
 {
+    
     unsigned char* aes_input = (unsigned char*)input;
     unsigned char* aes_key = (unsigned char*)key;
     
     int keylength = 128;
-    size_t inputslength = std::strlen((const char*)aes_input);
     
     unsigned char iv_dec[AES_BLOCK_SIZE], iv_enc[AES_BLOCK_SIZE];
     memset(iv_enc, 1, AES_BLOCK_SIZE);
     memcpy(iv_dec, iv_enc, AES_BLOCK_SIZE);
     
-    const size_t dec_length = ((inputslength / AES_BLOCK_SIZE) * AES_BLOCK_SIZE) + AES_BLOCK_SIZE;
+    const size_t dec_length = inputslength; //((inputslength / AES_BLOCK_SIZE) * AES_BLOCK_SIZE) + AES_BLOCK_SIZE;
     unsigned char* dec_out =  (unsigned char*)malloc( sizeof( unsigned char) * dec_length );
     memset(dec_out, 0, dec_length);
-    
     
     AES_KEY dec_key;
     
@@ -189,10 +161,8 @@ const char* decrypt(unsigned char* input, const char* key)
     return (const char*)dec_out;
 }
 
-std::string toHex(const char* str)
+std::string toHex(const char* str, int l)
 {
-    size_t l = strlen(str);
-    
     std::string mystr = "";
     
     for(int i=0; i < l; i++) {
@@ -201,7 +171,6 @@ std::string toHex(const char* str)
         std::stringstream ss(str);
         ss << std::hex << std::setfill('0') << std::setw(2) << v;
         std::string t = ss.str();
-        auto xx = t.c_str();
         mystr += t[0];
         mystr += t[1];
     }
@@ -216,10 +185,10 @@ std::string fromHex(const char* str)
     std::string mystr = "";
     
     size_t l = strlen(str);
-
+    
     for(int i=0; i < l; i+=2) {
         std::stringstream ss;
-
+        
         const char t[2] = {str[i], str[i+1]};
         ss << std::hex << std::setfill('0') << std::setw(2) << t;
         ss >> x;
@@ -230,25 +199,25 @@ std::string fromHex(const char* str)
     return mystr;
 }
 
-std::string hex_encrypt(const char* input, const char* key)
+std::string hex_encrypt(std::string input, std::string key)
 {
-    unsigned char* x = encrypt(input, key);
-    return toHex((const char*)x);
-    
-    
-    //const char* y = to_hex_string((const char*)x, strlen((const char*)x));
-    //free(x);
-    return (const char*)x;
+    int size;
+    unsigned char* x = encrypt(input.c_str(), key.c_str(), &size);
+    std::string hex = toHex((const char*)x, size);
+    free(x);
+    return hex;
 }
 
-const char* hex_decrypt(const char* input, const char* key)
+std::string hex_decrypt(std::string input, std::string key)
 {
-    std::string y = fromHex(input);
-    //unsigned char* y = (unsigned char*)from_hex_string(input, strlen((const char*)input));
-    const char* x = decrypt((unsigned char*)y.c_str(), key);
-    //free(y);
-    return x;
+    std::string y = fromHex(input.c_str());
+    const char* x = decrypt((unsigned char*)y.data(), (int)y.size(), key.c_str());
+    std::string x_str = std::string(x);
+    free((char*)x);
+    return x_str;
 }
+
+
 
 mpz_class gmp_random(int n)
 {
@@ -415,13 +384,20 @@ int main(int argc, const char * argv[])
 //    
 //    
     
-//    std::string cons = "cfaI934yhEnjyGP9dwGTWseMy";
+//    std::string cons = "11111111111111111";
+//    std::cout << cons.size() << std::endl;
+//    std::cout << AES_BLOCK_SIZE << std::endl;
 //    
+//    //std::string x = hex_encrypt(cons.data(), "51924831484719428842179641947340427938");
 //    
-//    std::string x = hex_encrypt(cons.c_str(), "51924831484719428842179641947340427938");
-//    const char* y = hex_decrypt("FA9819D48EE103508102D779570C4CC5AB9FE6B26172ADAA099F907F119A9CC0", "51924831484719428842179641947340427938");
+//    std::string x = "1423220A0076C83BEF67C2BCE2A4137B9A65F687E776C8CC441FF31456CA8D4788124153F7EEA11DB9165728DD351F38";
+//    
+//    std::string y = hex_decrypt(x, "51924831484719428842179641947340427938");
 //    
 //    std::cout << y << std::endl;
+//    //std::cout << x << std::endl;
+//
+//    return 1;
     
     
 //
@@ -440,6 +416,7 @@ int main(int argc, const char * argv[])
     //std::cout << asd.get_str() << std::endl;
     
     database d = database("/home/seanlth/Documents/C++/Skrambled-Back-End/users.db");
+    //database d = database("test.db");
     
     //d.insert("unverified", "JhaygoreDiego", "51924831484719428842179641947340427938");
     

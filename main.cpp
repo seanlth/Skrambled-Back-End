@@ -322,7 +322,7 @@ int authorise(database& d, std::string name, std::string c_key, std::string u_ke
 
     
     if (success) {
-        std::cout << "Success" << std::endl;
+        //std::cout << "Success" << std::endl;
         std::pair<std::string, std::string> r = d.select("unverified", name);
         d.insert("verified", name, r.second);
         d.remove("unverified", name);

@@ -462,7 +462,14 @@ int main(int argc, const char * argv[])
     switch (s) {
         case 0:
         {
-            std::cout << handshake(d, name, n, g, m);
+            std::pair<std::string, std::string> user = d.select("member", name);
+            if (user.first.compare( name ) == 0) {
+                std::cout << handshake(d, name, n, g, m);
+            }
+            else {
+                std::cout << "0";
+            }
+            
             break;
         }
         case 1:

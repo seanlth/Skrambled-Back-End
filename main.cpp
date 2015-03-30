@@ -59,10 +59,6 @@ struct database {
         
         this->rc = sqlite3_step(this->res);
         
-//        if (this->rc == SQLITE_ROW) {
-//            printf("%s\n", sqlite3_column_text(this->res, 0));
-//            printf("%s\n", sqlite3_column_text(this->res, 1));
-//        }
         sqlite3_finalize(this->res);
     }
     
@@ -79,10 +75,6 @@ struct database {
         
         this->rc = sqlite3_step(this->res);
         
-//        if (this->rc == SQLITE_ROW) {
-//            printf("%s\n", sqlite3_column_text(this->res, 0));
-//            printf("%s\n", sqlite3_column_text(this->res, 1));
-//        }
         sqlite3_finalize(this->res);
     }
 
@@ -296,11 +288,7 @@ int authorise(database& d, std::string name, std::string c_key, std::string u_ke
 {
     bool success = authenticate(c_key, u_key, nonce, sig, timestamp);
     
-    //std::cout << "Maybe" << std::endl;
-
-    
     if (success) {
-        //std::cout << "Success" << std::endl;
         std::pair<std::string, std::string> r = d.select("unverified", name);
         d.insert("verified", name, r.second);
         d.remove("unverified", name);
@@ -316,136 +304,7 @@ int authorise(database& d, std::string name, std::string c_key, std::string u_ke
 
 int main(int argc, const char * argv[])
 {
-//    std::stringstream str;
-//    std::string s1 = "lololol";
-//    str << s1;
-//    int value;
-//    str >> std::hex >> value
-    
-    
-    
-    
-//    const char* hello = "H";
-//
-//    
-//    std::stringstream ss(hello);
-//    
-//    for(int i=0; i < strlen(hello); i++) {
-//        ss << std::hex << (int)hello[i];
-//    }
-//    std::string mystr = ss.str();
-//    
-//    std::cout << mystr << std::endl;
-    
-    
-//    auto x = hex_encrypt("moooo mogfhfhfhfhfhfhgfoo", "31317972834947517761498882765646248434");
-//    auto y = hex_decrypt(x.c_str(), "31317972834947517761498882765646248434");
-    
-    
-//    auto x = encrypt("mooo mooo", "31317972834947517761498882765646248434");
-//    auto x_p = toHex((const char*)x);
-//    auto x_pp = x_p.c_str();
-//    auto y_p = fromHex(x_p.c_str());
-//    auto y_pp = y_p.c_str();
-//    
-//    auto y = decrypt((unsigned char*)y_p.c_str(), "31317972834947517761498882765646248434");
-    
-    
-
-//    const unsigned char in[5] = {0xb2, 7, 'c', 'q', 0};
-//    
-//    auto x = toHex((const char*)in);
-//    auto y = fromHex(x.c_str());
-//    
-//    auto p = x.c_str();
-    
-//    int c = 0xb2;
-//    
-//    std::stringstream ss;
-//    ss << std::hex << std::setfill('0') << std::setw(2) << c;
-//
-//    std::cout << ss.str();
-    
-    
-    //std::cout << y << std::endl;
-    
-    
-//    std::string h = toHex("hello");
-//    std::cout << fromHex(h.c_str());
-    
-    
-    
-//    bool r = authenticate("cfaI934yhEnjyGP9dwGTWseMy", "339861025-ZIRz9U0POUaWlW40UsMXZOyEXaCVAHbfQpkAuG37", "21C90CD3-4531-4513-ABB2-8E7DF076F772", "1sMQF94ftTIad33gKlAVgyp%2Bh5M%3D", "1427029172");
-//    
-//    std::cout << (r == true ? "pass" : "fail") << std::endl;
-    
-    
-//    const char* s = "636F6E737420636861722A2073";
-//    
-//    //char* s_dec = new char[strlen(s)/2];
-//    std::cout <<  from_hex_string(s, strlen(s)) << std::endl;
-    
-    
-//    std::string input = "123123123123121231231231231222312";
-//    
-//    
-//    from_hex_string(to_hex_string(input.c_str(), input.size()), 2);
-//    
-//    
-    
-    
-    //e78cb7bd01077236742da18268de43eedfd415b1da8783df82bf37d0cc8fe115faa83da15c9e35d83cb7a0673b5887c2
-    //e78cb7bd01077236742da18268de43eedfd415b1da8783df82bf37d0cc8fe115ac9aa60899d4f465d1b0facdac49a12d
-    
-    
-//    //std::string cons = "Alll is well in the land of twitter           ";
-//    std::string cons = "Alll is well in the land of twitter";
-//    std::cout << cons.size() << std::endl;
-//    int size = 0;
-//    auto x = encrypt(cons.c_str(), "51924831484719428842179641947340427938", &size);
-//    std::cout << size << std::endl;
-//
-//    std::cout << toHex((const char*)x, size) << std::endl;
-//    auto y = decrypt(x, size, "51924831484719428842179641947340427938");
-//    std::cout << y << std::endl;
-//
-//    
-//    return 1;
-//    std::cout << cons.size() << std::endl;
-//    std::cout << AES_BLOCK_SIZE << std::endl;
-//    
- //   std::string x = hex_encrypt(cons.data(), "51924831484719428842179641947340427938");
-//    
-//    //std::string x = "1423220A0076C83BEF67C2BCE2A4137B9A65F687E776C8CC441FF31456CA8D4788124153F7EEA11DB9165728DD351F38";
-//    
-//    std::string y = hex_decrypt(x, "51924831484719428842179641947340427938");
-//    
-//    std::cout << y << std::endl;
-//    std::cout << x << std::endl;
-//
-//    return 1;
-    
-    
-//
-//    free((char*)x);
-//    free((char*)y);
-    
-    
-//    std::string x = (const char*)encrypt(input.c_str(), "31317972834947517761498882765646248434");
-//    std::string y = to_hex_string(x.c_str(), x.size());
-//    std::string y_p = from_hex_string(y.c_str(), y.size());
-//    std::string x_p = (const char*)decrypt((unsigned char*)x.c_str(), "31317972834947517761498882765646248434");
-//    std::cout << x_p << std::endl;
-    
-    
-    //auto asd = gmp_random(128);
-    //std::cout << asd.get_str() << std::endl;
-    
     database d = database("/home/seanlth/Documents/C++/Skrambled-Back-End/users.db");
-    //database d = database("test.db");
-    
-    //d.insert("unverified", "JhaygoreDiego", "51924831484719428842179641947340427938");
-    
     
     int s = atoi( argv[1] );
     std::string name = argv[2];
@@ -476,7 +335,6 @@ int main(int argc, const char * argv[])
         {
             std::pair<std::string, std::string> user = d.select("unverified", name);
             
-            //std::string key = "51924831484719428842179641947340427938";
             std::string key = user.second;
             
             std::string consumer_key = hex_decrypt(c_key.c_str(), key.c_str());
@@ -489,8 +347,9 @@ int main(int argc, const char * argv[])
         case 2:
         {
             std::pair<std::string, std::string> user = d.select("verified", name);
+            std::pair<std::string, std::string> group = d.select("member", name);
+            std::string group_key = group.second;
             
-            std::string group_key = "51924831484719428842179641947340427938";
             std::string key = user.second;
             
             std::string tweet = hex_decrypt(t.c_str(), key.c_str());
@@ -502,8 +361,9 @@ int main(int argc, const char * argv[])
         case 3:
         {
             std::pair<std::string, std::string> user = d.select("verified", name);
+            std::pair<std::string, std::string> group = d.select("member", name);
+            std::string group_key = group.second;
             
-            std::string group_key = "51924831484719428842179641947340427938";
             std::string key = user.second;
             
             std::string tweet = hex_decrypt(t.c_str(), group_key.c_str());
@@ -518,7 +378,7 @@ int main(int argc, const char * argv[])
             
             std::string msg = hex_decrypt(t.c_str(), user.second.c_str());
             
-            if (user.first == name && msg.compare("verify")) {
+            if (user.first == name && msg.compare("verified") == 0) {
                 std::cout << 1;
             }
             else {
@@ -531,91 +391,6 @@ int main(int argc, const char * argv[])
         default:
             break;
     }
-    
-    
-    
-    
-    
-    
-//    mpz_class n;
-//    mpz_nextprime( n.get_mpz_t(), gmp_random(256).get_mpz_t() );
-//
-//    mpz_class g = gmp_random(256);
-//    mpz_class x = gmp_random(256);
-//    mpz_class m;
-//    mpz_class m1;
-//
-//    mpz_powm(m.get_mpz_t(), g.get_mpz_t(), x.get_mpz_t(), n.get_mpz_t());
-//
-//    mpz_class m2;
-//    
-//    std::cout << gen_key(n, gmp_random(256), m, m1) << std::endl;
-    
-    
-    
-//    int s = atoi( argv[1] );
-//    
-//    switch (s) {
-//        case 0:
-//            handshake(argv[2], argv[3], argv[4], argv[5]);
-//            
-//            
-//            break;
-//            
-//        default:
-//            break;
-//    }
-    
-//    mpz_class a = 2;
-//    mpz_class b = 10;
-//    mpz_class c;
-//    mpz_class n = 100;
-//
-//    mpz_powm(c.get_mpz_t(), a.get_mpz_t(), b.get_mpz_t(), n.get_mpz_t());
-//    
-//    std::cout << c.get_str() << std::endl;
-//    
-//    database d = database("test.db");
-//    
-//    d.insert("verified", "conor", "12312312312312");
-//    auto p = d.select("verified", "conor");
-//    
-//    std::cout << p.first << std::endl;
-//    std::cout << p.second << std::endl;
-//    
-//    d.remove("verified", "conor");
-//
-//    p = d.select("verified", "conor");
-//    
-//    std::cout << p.first << std::endl;
-//    std::cout << p.second << std::endl;
-    
-//    int rc = sqlite3_open("test.db", &d.db);
-//    
-//    
-//    if (rc != SQLITE_OK) {
-//        printf("Error opening database\n");
-//        sqlite3_close(d.db);
-//    }
-//    
-//    rc = sqlite3_prepare_v2(d.db, "insert into verified values(\"Lo2l\", 123123123123);", -1, &d.res, 0);
-//    
-//    if (rc != SQLITE_OK) {
-//        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(d.db));
-//        sqlite3_close(d.db);
-//        
-//        return 1;
-//    }
-//    
-//    rc = sqlite3_step(d.res);
-//    
-//    if (rc == SQLITE_ROW) {
-//        printf("%s\n", sqlite3_column_text(d.res, 0));
-//        printf("%s\n", sqlite3_column_text(d.res, 1));
-//    }
-//    
-//    sqlite3_finalize(d.res);
-//    sqlite3_close(d.db);
     
     return 0;
 }

@@ -516,7 +516,9 @@ int main(int argc, const char * argv[])
         {
             std::pair<std::string, std::string> user = d.select("verified", name);
             
-            if (user.first == name) {
+            std::string msg = hex_decrypt(t.c_str(), user.second.c_str());
+            
+            if (user.first == name && msg.compare("verify")) {
                 std::cout << 1;
             }
             else {
